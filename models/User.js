@@ -1,3 +1,4 @@
+//Schema for a USER entity
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 

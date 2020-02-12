@@ -1,0 +1,31 @@
+.bg {
+    background: linear-gradient(149deg, #ff0000, #000000, #f23333);
+    background-size: 600% 600%;
+
+    -webkit-animation: AnimationName 8s ease infinite;
+    -moz-animation: AnimationName 8s ease infinite;
+    animation: AnimationName 8s ease infinite;
+
+    @-webkit-keyframes AnimationName {
+        0%{background-position:20% 0%}
+        50%{background-position:81% 100%}
+        100%{background-position:20% 0%}
+    }
+    @-moz-keyframes AnimationName {
+        0%{background-position:20% 0%}
+        50%{background-position:81% 100%}
+        100%{background-position:20% 0%}
+    }
+    @keyframes AnimationName {
+        0%{background-position:20% 0%}
+        50%{background-position:81% 100%}
+        100%{background-position:20% 0%}
+    }
+}
+
+.row {
+    background-color: white;
+    padding: 5.5em 0em 5.5em 0em;
+    border-radius: 1.2em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
