@@ -1,13 +1,13 @@
 // Pull in dependencies
-const Validator = require("validator");
-const isEmpty = require("is-empty");
+const Validator = require("validator"); //Module that contains some functions to help us validate form information easily
+const isEmpty = require("is-empty"); //Another module that helps us determine if certain data is empty
 
 //Export the function
 module.exports = function validateRegisterInput(data) {
     let errors = {}; //Create the errors object
 
-    //Transform all empty fields to empty strings 
-    data.name = !isEmpty(data.name) ? data.name : "";
+    //Transform all empty fields to empty strings -- validator functions only work on strings... we don't want "    " to be passed to our validator functions
+    data.name = !isEmpty(data.name) ? data.name : ""; //Ternary operators act just like if statements - if isEmpty(data.name) is false, data.name is set to "" so that our validator functions can play around with it 
     data.email = !isEmpty(data.email) ? data.email : "";
     data.password = !isEmpty(data.password) ? data.password : "";
     data.password2 = !isEmpty(data.password2) ? data.password2 : "";
@@ -44,7 +44,7 @@ module.exports = function validateRegisterInput(data) {
     //Return the errors object with an isValid boolean that checks if any errors exist
     return {
         errors,
-        isValid: isEmpty(errors)
+        isValid: isEmpty(errors) //If there are any errors, return False (i.e. NOT valid)
     };
 
 };

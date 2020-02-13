@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import classnames from "classnames";
+
 class Register extends Component {
   constructor() {
     super();
@@ -15,7 +16,7 @@ class Register extends Component {
       errors: {}
     };
   }
-  
+
   componentDidMount() {
     // If logged in and user navigates to Register page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
@@ -23,29 +24,33 @@ class Register extends Component {
     }
   }
 
-componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors
       });
     }
   }
-onChange = e => {
+
+  onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
-onSubmit = e => {
+
+  onSubmit = e => {
     e.preventDefault();
-const newUser = {
+    const newUser = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
       password2: this.state.password2
     };
-this.props.registerUser(newUser, this.props.history); 
+    this.props.registerUser(newUser, this.props.history);
   };
-render() {
+
+  render() {
     const { errors } = this.state;
-return (
+
+    return (
       <div className="container">
         <div className="row">
           <div className="col s8 offset-s2">
@@ -152,10 +157,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { registerUser }
-)(withRouter(Register));
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
 //Need to connect to Redux
 //withRouter() is used because it isn't possible to redirect within an action
 //^^ it is, however, easy to do in a component via this.props.history.push('/route...')

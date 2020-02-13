@@ -23,6 +23,6 @@ module.exports = function validateLoginInput(data) {
     //Return the errors object with an isValid boolean that checks if any errors exist
     return {
         errors,
-        isValid: isEmpty(errors)
+        isValid: isEmpty(errors) //If there are any errors, return False (i.e. NOT valid)
     };
 };
