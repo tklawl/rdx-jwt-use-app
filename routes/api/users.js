@@ -12,10 +12,8 @@ const validateLoginInput = require("../../validation/login");
 const User = require("../../models/User");
 
 //Cross origination resource sharing -- our client is hosted on 3000, but our server is hosted on 5000 -- we need to send requests between the ports
-const cors = require('cors');
-router.use(cors()); 
-
-
+const cors = require("cors");
+router.use(cors());
 
 // @route POST api/users/register
 // @desc Register user
@@ -32,9 +30,11 @@ router.post("/register", (req, res) => {
 
   //Check if the user's email address exists
   User.findOne({ email: req.body.email }).then(user => {
-    if (user) { //If the user's email does exist...
+    if (user) {
+      //If the user's email does exist...
       return res.status(400).json({ email: "Email already exists" });
-    } else { //If the user's email does not exist, make a newUser object 
+    } else {
+      //If the user's email does not exist, make a newUser object
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
@@ -54,8 +54,6 @@ router.post("/register", (req, res) => {
     }
   });
 });
-
-
 
 // @route POST api/users/login
 // @desc Login user and return JWT token
@@ -79,7 +77,7 @@ router.post("/login", (req, res) => {
     if (!user) {
       return res.status(404).json({ emailnotfound: "Email not found" });
     }
-    
+
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
@@ -93,7 +91,7 @@ router.post("/login", (req, res) => {
         jwt.sign(
           payload,
           keys.secretOrKey,
-          { expiresIn: 31556926}, // 1 year in seconds 
+          { expiresIn: 31556926 }, // 1 year in seconds
           (err, token) => {
             res.json({
               success: true,
@@ -102,12 +100,37 @@ router.post("/login", (req, res) => {
           }
         );
       } else {
-          return res
-            .status(400)
-            .json({ passwordincorrect: "Password incorrect" });
-        }
-      });
+        return res
+          .status(400)
+          .json({ passwordincorrect: "Password incorrect" });
+      }
     });
   });
+});
 
-  module.exports = router;
+//Get ALL users
+router.get("/getUsers", (req, res) => {
+  User.find({}, (err, users) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err });
+    }
+    if (!users.length) {
+      return res.status(404).json({ success: false, error: `No users found` });
+    }
+    return res.status(200).json({ success: true, data: users });
+  }).catch(err => console.log(err));
+});
+
+//Get a specific user
+router.get("/getUser/:id", (req, res) => {
+  const userId = req.params.id;
+
+  User.findOne({ _id: userId }, (err, user) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err });
+    }
+    return res.status(200).json({ success: true, data: user });
+  }).catch(err => console.log(err));
+});
+
+module.exports = router;
